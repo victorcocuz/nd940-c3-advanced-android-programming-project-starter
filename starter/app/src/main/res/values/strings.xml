@@ -6,7 +6,9 @@
     <!--Notifications-->
     <string name="notification_title">Udacity: Android Kotlin Nanodegree </string>
     <string name="notification_description">The Project 3 repository is downloaded</string>
-    <string name="notification_button">See changes</string>
+    <string name="notification_button">Check the status</string>
+    <string name="notification_channel_id">channelId</string>
+    <string name="notification_channel_name">Channel for downloads</string>
 
     <!--App-->
     <string name="button_name">Click me</string>
@@ -16,5 +18,15 @@
     <string name="radio_button_glide">Glide - Image Loading Library by BumpTech</string>
     <string name="radio_button_load_app">LoadApp - Current repository by Udacity</string>
     <string name="radio_button_retrofit">Retrofit - Type-safe HTTP client for android and Java by Square, Inc</string>
+    <string name="radio_button_not_selected">Please select an option to start downloading</string>
+
+    <!--Detail Activity-->
+    <string name="detail_label_file_name">File name:</string>
+    <string name="detail_label_status">Status:</string>
+    <string name="detail_button">OK</string>
+    <string name="detail_success">Success</string>
+    <string name="detail_fail">Fail</string>
+
+    <!--Content description-->
     <string name="image_cloud_download">Cloud download logo</string>
 </resources>
