@@ -9,6 +9,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.net.Uri
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import kotlinx.android.synthetic.main.activity_main.*
@@ -29,11 +30,21 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         registerReceiver(receiver, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
+        radio_group.setOnCheckedChangeListener{ _, id ->
+            url = when(id) {
+                R.id.radio_button_glide -> Constants.URL_GLIDE
+                R.id.radio_button_load_app -> Constants.URL_LOAD_APP
+                R.id.radio_button_retrofit -> Constants.URL_RETROFIT
+                else -> ""
+            }
+            Toast.makeText(this, url, Toast.LENGTH_SHORT).show()
+        }
 
         custom_button.setOnClickListener {
             download()
         }
     }
+
 
     private val receiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
@@ -43,7 +54,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun download() {
         val request =
-            DownloadManager.Request(Uri.parse(URL))
+            DownloadManager.Request(Uri.parse(url))
                 .setTitle(getString(R.string.app_name))
                 .setDescription(getString(R.string.app_description))
                 .setRequiresCharging(false)
@@ -51,14 +62,15 @@ class MainActivity : AppCompatActivity() {
                 .setAllowedOverRoaming(true)
 
         val downloadManager = getSystemService(DOWNLOAD_SERVICE) as DownloadManager
-        downloadID =
-            downloadManager.enqueue(request)// enqueue puts the download request in the queue.
+        downloadID = downloadManager.enqueue(request)// enqueue puts the download request in the queue.
     }
 
     companion object {
-        private const val URL =
-            "https://github.com/udacity/nd940-c3-advanced-android-programming-project-starter/archive/master.zip"
+//        private const val URL =
+//            "https://github.com/udacity/nd940-c3-advanced-android-programming-project-starter/archive/master.zip"
+        private var url = ""
         private const val CHANNEL_ID = "channelId"
     }
+
 
 }
