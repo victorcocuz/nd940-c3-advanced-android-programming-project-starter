@@ -9,6 +9,7 @@ import android.view.animation.LinearInterpolator
 import androidx.core.animation.doOnEnd
 import androidx.core.animation.doOnStart
 import androidx.core.content.ContextCompat
+import androidx.core.content.withStyledAttributes
 import timber.log.Timber
 import kotlin.properties.Delegates
 
@@ -18,12 +19,18 @@ class LoadingButton @JvmOverloads constructor(
     private var widthSize = 0
     private var heightSize = 0
 
+    // Animation variables
     private var valueAnimator = ValueAnimator()
     private var arcRect = RectF()
     private var currentSweepAngle = 0
     private var currentRectangleWidth = 0f
 
-    private var buttonText = resources.getString(R.string.button_completed)
+    // Styleables
+    private var buttonCompleteColor: Int = 0
+    private var buttonLoadingColor: Int = 0
+    private var buttonCircleColor: Int = 0
+    private var textWhiteColor: Int = 0
+    private var buttonText: String = ""
 
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         style = Paint.Style.FILL
@@ -50,6 +57,13 @@ class LoadingButton @JvmOverloads constructor(
     init {
         isClickable = true
         contentDescription = resources.getString(R.string.button_completed)
+        context.withStyledAttributes(attrs, R.styleable.LoadingButton) {
+            buttonCompleteColor = getColor(R.styleable.LoadingButton_button_color_complete, 0)
+            buttonLoadingColor = getColor(R.styleable.LoadingButton_button_color_loading, 0)
+            buttonCircleColor = getColor(R.styleable.LoadingButton_button_color_circle, 0)
+            textWhiteColor = getColor(R.styleable.LoadingButton_color_white, 0)
+            buttonText = getString(R.styleable.LoadingButton_button_text) ?: ""
+        }
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -75,13 +89,13 @@ class LoadingButton @JvmOverloads constructor(
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        paint.color = ContextCompat.getColor(context, R.color.button_complete)
+        paint.color = buttonCompleteColor
         canvas.drawRect(0f, 0f, widthSize.toFloat(), heightSize.toFloat(), paint)
-        paint.color = ContextCompat.getColor(context, R.color.button_loading)
+        paint.color = buttonLoadingColor
         canvas.drawRect(0f, 0f, currentRectangleWidth, heightSize.toFloat(), paint)
-        paint.color = ContextCompat.getColor(context, R.color.button_circle)
+        paint.color = buttonCircleColor
         canvas.drawArc(arcRect, 0f, currentSweepAngle.toFloat(), true, paint)
-        paint.color = ContextCompat.getColor(context, R.color.white)
+        paint.color = textWhiteColor
         canvas.drawText(buttonText, widthSize.toFloat() / 2, heightSize.toFloat() / 2 + 20f, paint)
     }
 

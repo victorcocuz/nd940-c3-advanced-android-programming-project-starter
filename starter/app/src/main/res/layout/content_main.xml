@@ -63,6 +63,11 @@
         android:layout_width="0dp"
         android:layout_height="60dp"
         android:layout_margin="20dp"
+        app:button_color_complete="@color/button_complete"
+        app:button_color_loading="@color/button_loading"
+        app:button_color_circle="@color/button_circle"
+        app:color_white="@color/white"
+        app:button_text="@string/button_completed"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
