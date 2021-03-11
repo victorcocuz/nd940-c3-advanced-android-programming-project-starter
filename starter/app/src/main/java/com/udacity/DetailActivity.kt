@@ -15,13 +15,13 @@ class DetailActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         detail_name.text = intent.getStringExtra(Constants.TITLE)
-       if (intent.getBooleanExtra(Constants.STATUS, false)) {
-           detail_status.text = getString(R.string.detail_success)
-           detail_status.setTextAppearance(android.R.style.TextAppearance)
-       } else {
-           detail_status.text = getString(R.string.detail_fail)
-           detail_status.setTextColor(ContextCompat.getColor(this, R.color.colorRed))
-       }
+        if (intent.getBooleanExtra(Constants.STATUS, false)) {
+            detail_status.setTextAppearance(android.R.style.TextAppearance)
+            detail_status.text = getString(R.string.detail_success)
+        } else {
+            detail_status.setTextColor(ContextCompat.getColor(this, R.color.colorRed))
+            detail_status.text = getString(R.string.detail_fail)
+        }
 
         detail_button.setOnClickListener {
             startActivity(Intent(this, MainActivity::class.java))
