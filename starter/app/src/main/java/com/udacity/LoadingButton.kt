@@ -81,7 +81,7 @@ class LoadingButton @JvmOverloads constructor(
         canvas.drawRect(0f, 0f, currentRectangleWidth, heightSize.toFloat(), paint)
         paint.color = ContextCompat.getColor(context, R.color.button_circle)
         canvas.drawArc(arcRect, 0f, currentSweepAngle.toFloat(), true, paint)
-        paint.color = ContextCompat.getColor(context, R.color.black)
+        paint.color = ContextCompat.getColor(context, R.color.white)
         canvas.drawText(buttonText, widthSize.toFloat() / 2, heightSize.toFloat() / 2 + 20f, paint)
     }
 
@@ -102,6 +102,9 @@ class LoadingButton @JvmOverloads constructor(
 
             doOnEnd {
                 buttonText = resources.getString(R.string.button_completed)
+                currentSweepAngle = 0
+                currentRectangleWidth = 0f
+                invalidate()
                 buttonState = ButtonState.Completed
             }
         }
