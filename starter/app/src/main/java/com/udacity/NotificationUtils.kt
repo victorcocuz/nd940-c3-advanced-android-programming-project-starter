@@ -1,10 +1,13 @@
 package com.udacity
 
+import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
+import android.graphics.Color
+import android.os.Build
 import androidx.core.app.NotificationCompat
 
 private const val NOTIFICATION_ID = 0
@@ -39,4 +42,20 @@ fun NotificationManager.sendNotification(title: String, status: Boolean, applica
 
 fun NotificationManager.cancelNotifications() {
     cancelAll()
+}
+
+fun createChannel(notificationManager: NotificationManager, channelId: String, channelName: String) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        val notificationChannel = NotificationChannel(
+            channelId,
+            channelName,
+            NotificationManager.IMPORTANCE_LOW
+        )
+        notificationChannel.enableLights(true)
+        notificationChannel.lightColor = Color.RED
+        notificationChannel.enableVibration(true)
+        notificationChannel.description = "Download notifications"
+
+        notificationManager.createNotificationChannel(notificationChannel)
+    }
 }

@@ -44,13 +44,13 @@ class MainActivity : AppCompatActivity() {
         notificationManager = getSystemService(NotificationManager::class.java)
 
         custom_button.setOnClickListener {
-            createChannel(getString(R.string.notification_channel_id), getString(R.string.notification_channel_name))
-            when (radio_group.checkedRadioButtonId) {
-                R.id.radio_button_glide -> download(Link.GLIDE)
-                R.id.radio_button_load_app -> download(Link.LOAD_APP)
-                R.id.radio_button_retrofit -> download(Link.RETROFIT)
-                else -> Toast.makeText(applicationContext, getString(R.string.radio_button_not_selected), Toast.LENGTH_SHORT).show()
-            }
+            createChannel(notificationManager, getString(R.string.notification_channel_id), getString(R.string.notification_channel_name))
+            download(when(radio_group.checkedRadioButtonId) {
+                R.id.radio_button_glide -> Link.GLIDE
+                R.id.radio_button_load_app -> Link.LOAD_APP
+                R.id.radio_button_retrofit -> Link.RETROFIT
+                else -> Link.NULL
+            })
         }
     }
 
@@ -70,32 +70,20 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun download(link: Link) {
-        val request = DownloadManager.Request(Uri.parse(link.url))
-                        .setTitle(getString(link.title))
-                        .setDescription(getString(R.string.app_description))
-                        .setRequiresCharging(false)
-                        .setAllowedOverMetered(true)
-                        .setAllowedOverRoaming(true)
+        if (link == Link.NULL) {
+            Toast.makeText(applicationContext, getString(R.string.radio_button_not_selected), Toast.LENGTH_SHORT).show()
+        } else {
+            val request = DownloadManager.Request(Uri.parse(link.url))
+                .setTitle(getString(link.title))
+                .setDescription(getString(R.string.app_description))
+                .setRequiresCharging(false)
+                .setAllowedOverMetered(true)
+                .setAllowedOverRoaming(true)
 
-        val downloadManager = getSystemService(DOWNLOAD_SERVICE) as DownloadManager
-        notificationManager.cancelNotifications()
-        downloadID = downloadManager.enqueue(request)// enqueue puts the download request in the queue.
-    }
-
-    private fun createChannel(channelId: String, channelName: String) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val notificationChannel = NotificationChannel(
-                    channelId,
-                    channelName,
-                    NotificationManager.IMPORTANCE_LOW
-            )
-            notificationChannel.enableLights(true)
-            notificationChannel.lightColor = Color.RED
-            notificationChannel.enableVibration(true)
-            notificationChannel.description = "Download notifications"
-
-            notificationManager.createNotificationChannel(notificationChannel)
+            val downloadManager = getSystemService(DOWNLOAD_SERVICE) as DownloadManager
+            notificationManager.cancelNotifications()
+            downloadID = downloadManager.enqueue(request)// enqueue puts the download request in the queue.
+            custom_button.buttonState = ButtonState.Clicked
         }
     }
-
 }

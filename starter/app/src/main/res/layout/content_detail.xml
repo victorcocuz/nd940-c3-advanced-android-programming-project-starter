@@ -17,11 +17,11 @@
 
     <TextView
         android:id="@+id/detail_label_file_name"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="96dp"
         android:text="@string/detail_label_file_name"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintStart_toStartOf="@+id/guideline_detail_start"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -29,7 +29,7 @@
         android:id="@+id/detail_label_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="96dp"
         android:text="@string/detail_label_status"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintStart_toStartOf="@+id/guideline_detail_start"
